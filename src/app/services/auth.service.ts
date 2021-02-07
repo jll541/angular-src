@@ -13,8 +13,10 @@ export class AuthService {
 
   // NOTE: unsure why 3000
   registerUser(user: any){
+    console.log('in register user', user);
       let headers = new HttpHeaders();
       headers.append('Content-Type', 'application/json');
+      console.log('headers:', headers);
       return this.http.post('users/register', user, {headers: headers})
         .pipe(map((res) => res));
       
