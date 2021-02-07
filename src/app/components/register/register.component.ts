@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/login']);
       } else {
         this.router.navigate(['/register']);
+        console.log("could not register", data);
       }
     });
   }
