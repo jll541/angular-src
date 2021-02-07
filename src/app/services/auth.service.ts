@@ -15,7 +15,7 @@ export class AuthService {
   registerUser(user: any){
       let headers = new HttpHeaders();
       headers.append('Content-Type', 'application/json');
-      return this.http.post('https://mean-pub-quiz.herokuapp.com/users/register', user, {headers: headers})
+      return this.http.post('users/register', user, {headers: headers})
         .pipe(map((res) => res));
       
     }
@@ -23,14 +23,14 @@ export class AuthService {
   authenticateUser(user: any){
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://mean-pub-quiz.herokuapp.com/users/authenticate', user, {headers: headers})
+    return this.http.post('users/authenticate', user, {headers: headers})
       .pipe(map((res) => res));
   }
 
   getProfile(): any{
     this.loadToken();
     let headers = new HttpHeaders().append('Authorization', this.authToken).append('Content-Type', 'application/json');
-    return this.http.get('https://mean-pub-quiz.herokuapp.com/users/profile', {headers: headers})
+    return this.http.get('users/profile', {headers: headers})
   }
 
   storeUserData(token: string, user: any){
