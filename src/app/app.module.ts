@@ -12,6 +12,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+
 // NOTE: check if need ot import services?
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
