@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
   username!: String;
   email!: String;
   password!: String;
+  success = true;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -27,11 +28,12 @@ export class RegisterComponent implements OnInit {
     console.log(user);
     this.authService.registerUser(user).subscribe(data => {
       if ((data as any).success) {
-        // show success message
+        this.success = true;
         console.log("success");
         this.router.navigate(['/login']);
       } else {
         this.router.navigate(['/register']);
+        this.success = false;
         console.log("could not register", data);
       }
     });
