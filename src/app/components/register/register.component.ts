@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+    console.log("TEST");
     console.log("test", this.name);
     if (this.name === undefined || this.email === undefined || this.password === undefined || this.username === undefined) {
       this.success = false;
