@@ -34,10 +34,17 @@ export class AuthService {
     return this.http.get('users/profile', {headers: headers})
   }
 
-  checkUserExists(user: any) {
+  checkUsernameExists(user: any) {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('users/existing', user, {headers: headers})
+    return this.http.post('users/existingUsername', user, {headers: headers})
+      .pipe(map((res) => res));
+  }
+
+  checkEmailExists(user: any) {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('users/existingEmail', user, {headers: headers})
       .pipe(map((res) => res));
   }
   

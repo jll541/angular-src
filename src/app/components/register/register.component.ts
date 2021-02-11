@@ -23,56 +23,48 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit() {
     if (this.name === undefined || this.name === "" || this.email === undefined || this.email === ""  || this.password === undefined || this.password === "" || this.username === undefined || this.username === "") {
       this.success = false;
-      setTimeout(()=>{                           //<<<---using ()=> syntax
+      setTimeout(()=>{                           
         this.success = true;
-   }, 3000); 
+      }, 3000); 
     } else if ( !(this.email.includes("@")) || !(this.email.endsWith(".com") || this.email.endsWith(".co.uk") || this.email.endsWith(".ac.uk"))) {
-    this.errorMessage = "Invalid Email Address!";
-    setTimeout(()=>{                           //<<<---using ()=> syntax
-      this.errorMessage = "";
-    }, 3000); 
+      this.errorMessage = "Invalid Email Address!";
+      setTimeout(()=>{                        
+        this.errorMessage = "";
+      }, 3000); 
     } else {
-      // this.isValid = true;
       const user = {
         name: this.name,
         email: this.email,
         username: this.username,
         password: this.password
       }
-      this.authService.checkUserExists(user).subscribe(data => {
-        if ((data as any) ) {
-          console.log(user, data ,"user exists")
+      this.authService.checkUsernameExists(user).subscribe(data => {
+        if ((data as any).success === true) {
+          this.errorMessage = "This username is already taken, please choose another!";
+          setTimeout(()=>{                          
+            this.errorMessage = "";
+          }, 3000);
         } else {
-        console.log("user doesnt exist");  
+          this.authService.checkEmailExists(user).subscribe(data => {
+            if ((data as any).success === true) {
+              this.errorMessage = "That email is already associated with an account, try logging in instead!";
+              setTimeout(()=>{                     
+                this.errorMessage = "";
+              }, 3000);
+            } else {
+              this.authService.registerUser(user).subscribe(data => {
+                if ((data as any).success) {
+                  this.success = true;
+                  this.router.navigate(['/login']);
+                } else {
+                  this.router.navigate(['/register']);
+                  this.success = false;
+                }
+              });
+            }
+          });  
         }
       });  
-      // this.authService.authenticateUser(user).subscribe(data => {
-      //   console.log((data as any).username ,user.usern1ame, this.username);
-      //   console.log((data as any).email ,user.email, this.username);
-      //   if ((data as any).username === user.username) {
-      //     this.errorMessage = "That username is taken, please try a different one!";
-      //   } else if ((data as any).email === user.email) {
-      //     this.errorMessage = "That email is already associated with an account, try logging in instead!"
-      //   } else {
-          this.authService.registerUser(user).subscribe(data => {
-            if ((data as any).success) {
-              this.success = true;
-              this.router.navigate(['/login']);
-            } else {
-              this.router.navigate(['/register']);
-              this.success = false;
-            }
-          });
-        // }
-        // setTimeout(()=>{                           //<<<---using ()=> syntax
-        //   this.errorMessage = "";
-        // }, 3000);
-
-      // });
-  
-  
-      
     }
-
   }
 }

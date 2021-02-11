@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   onLoginSubmit() {
     if (this.username === undefined || this.username === "" || this.password === undefined || this.password === "") {
       this.success = false;
-      setTimeout(()=>{                           //<<<---using ()=> syntax
+      setTimeout(()=>{                        
         this.success = true;
    }, 3000);
     } else {
@@ -29,15 +29,13 @@ export class LoginComponent implements OnInit {
         password: this.password
       }
       this.authService.authenticateUser(user).subscribe(data => {
-        console.log(data);
         if ((data as any).success) {
-          // show success message
           this.authService.storeUserData((data as any).token, (data as any).user);
           this.router.navigate(['/dashboard']);
         } else {
           this.router.navigate(['/login']);
           this.errorMessage = (data as any).msg;
-          setTimeout(()=>{                           //<<<---using ()=> syntax
+          setTimeout(()=>{                        
             this.errorMessage = "";
           }, 3000);
         }
