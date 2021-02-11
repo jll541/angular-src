@@ -25,7 +25,12 @@ export class RegisterComponent implements OnInit {
       this.success = false;
       setTimeout(()=>{                           //<<<---using ()=> syntax
         this.success = true;
-   }, 3000);
+   }, 3000); 
+    } else if ( !(this.email.includes("@")) || !(this.email.endsWith(".com") || this.email.endsWith(".co.uk") || this.email.endsWith(".ac.uk"))) {
+    this.errorMessage = "Invalid Email Address!";
+    setTimeout(()=>{                           //<<<---using ()=> syntax
+      this.errorMessage = "";
+    }, 3000); 
     } else {
       // this.isValid = true;
       const user = {
