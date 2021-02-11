@@ -5,7 +5,6 @@ import { AuthService} from '../services/auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate{
     constructor(private authService:AuthService, private router:Router){
-
     }
     canActivate(){
         if (this.authService.loggedIn()){
@@ -13,6 +12,16 @@ export class AuthGuard implements CanActivate{
         } else {
             this.router.navigate(['/login']);
             return false;
+        }
+    }
+
+    // if logged in, cannot type url 
+    canAccessByURL(){
+        if (this.authService.loggedIn()){
+            this.router.navigate(['']);
+            return false;
+        } else {
+            return true;
         }
     }
 }

@@ -12,13 +12,10 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   registerUser(user: any){
-    console.log('in register user', user);
       let headers = new HttpHeaders();
       headers.append('Content-Type', 'application/json');
-      console.log('headers:', headers);
       return this.http.post('users/register', user, {headers: headers})
-        .pipe(map((res) => res));
-      
+        .pipe(map((res) => res));  
     }
 
   authenticateUser(user: any){

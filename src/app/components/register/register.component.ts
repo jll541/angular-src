@@ -26,6 +26,11 @@ export class RegisterComponent implements OnInit {
       setTimeout(()=>{                           
         this.success = true;
       }, 3000); 
+    } else if (this.name.length > 40 || this.email.length > 40 || this.password.length > 40 || this.username.length > 40 ) {
+      this.errorMessage = "Too many characters used!";
+      setTimeout(()=>{                        
+        this.errorMessage = "";
+      }, 3000); 
     } else if ( !(this.email.includes("@")) || !(this.email.endsWith(".com") || this.email.endsWith(".co.uk") || this.email.endsWith(".ac.uk"))) {
       this.errorMessage = "Invalid Email Address!";
       setTimeout(()=>{                        
