@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   password!: String;
   success = true;
   // isValid = false;
+  errorMessage = "";
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -20,10 +21,11 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-    console.log("TEST");
-    console.log("test", this.name);
-    if (this.name === undefined || this.email === undefined || this.password === undefined || this.username === undefined) {
+    if (this.name === undefined || this.name === "" || this.email === undefined || this.email === ""  || this.password === undefined || this.password === "" || this.username === undefined || this.username === "") {
       this.success = false;
+      setTimeout(()=>{                           //<<<---using ()=> syntax
+        this.success = true;
+   }, 3000);
     } else {
       // this.isValid = true;
       const user = {
@@ -32,19 +34,33 @@ export class RegisterComponent implements OnInit {
         username: this.username,
         password: this.password
       }
-  
-      console.log(user);
-      this.authService.registerUser(user).subscribe(data => {
-        if ((data as any).success) {
-          this.success = true;
-          console.log("success");
-          this.router.navigate(['/login']);
+
+      this.authService.authenticateUser(user).subscribe(data => {
+        console.log((data as any).username ,user.username, this.username);
+        console.log((data as any).email ,user.email, this.username);
+        if ((data as any).username === user.username) {
+          this.errorMessage = "That username is taken, please try a different one!";
+        } else if ((data as any).email === user.email) {
+          this.errorMessage = "That email is already associated with an account, try logging in instead!"
         } else {
-          this.router.navigate(['/register']);
-          this.success = false;
-          console.log("could not register", data);
+          this.authService.registerUser(user).subscribe(data => {
+            if ((data as any).success) {
+              this.success = true;
+              this.router.navigate(['/login']);
+            } else {
+              this.router.navigate(['/register']);
+              this.success = false;
+            }
+          });
         }
+        setTimeout(()=>{                           //<<<---using ()=> syntax
+          this.errorMessage = "";
+        }, 3000);
+
       });
+  
+  
+      
     }
 
   }

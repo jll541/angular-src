@@ -11,7 +11,6 @@ export class AuthService {
   helper = new JwtHelperService();
   constructor(private http: HttpClient) { }
 
-  // NOTE: unsure why 3000
   registerUser(user: any){
     console.log('in register user', user);
       let headers = new HttpHeaders();
@@ -35,6 +34,11 @@ export class AuthService {
     return this.http.get('users/profile', {headers: headers})
   }
 
+  checkUserExists() {
+    let headers = new HttpHeaders().append('Content-Type', 'application/json');
+    return this.http.get('users/exists', {headers: headers})
+  }
+  
   storeUserData(token: string, user: any){
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
