@@ -34,9 +34,11 @@ export class AuthService {
     return this.http.get('users/profile', {headers: headers})
   }
 
-  checkUserExists() {
-    let headers = new HttpHeaders().append('Content-Type', 'application/json');
-    return this.http.get('users/exists', {headers: headers})
+  checkUserExists(user: any) {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('users/existing', user, {headers: headers})
+      .pipe(map((res) => res));
   }
   
   storeUserData(token: string, user: any){

@@ -39,15 +39,21 @@ export class RegisterComponent implements OnInit {
         username: this.username,
         password: this.password
       }
-
-      this.authService.authenticateUser(user).subscribe(data => {
-        console.log((data as any).username ,user.username, this.username);
-        console.log((data as any).email ,user.email, this.username);
-        if ((data as any).username === user.username) {
-          this.errorMessage = "That username is taken, please try a different one!";
-        } else if ((data as any).email === user.email) {
-          this.errorMessage = "That email is already associated with an account, try logging in instead!"
+      this.authService.checkUserExists(user).subscribe(data => {
+        if ((data as any) ) {
+          console.log(user, data ,"user exists")
         } else {
+        console.log("user doesnt exist");  
+        }
+      });  
+      // this.authService.authenticateUser(user).subscribe(data => {
+      //   console.log((data as any).username ,user.usern1ame, this.username);
+      //   console.log((data as any).email ,user.email, this.username);
+      //   if ((data as any).username === user.username) {
+      //     this.errorMessage = "That username is taken, please try a different one!";
+      //   } else if ((data as any).email === user.email) {
+      //     this.errorMessage = "That email is already associated with an account, try logging in instead!"
+      //   } else {
           this.authService.registerUser(user).subscribe(data => {
             if ((data as any).success) {
               this.success = true;
@@ -57,12 +63,12 @@ export class RegisterComponent implements OnInit {
               this.success = false;
             }
           });
-        }
-        setTimeout(()=>{                           //<<<---using ()=> syntax
-          this.errorMessage = "";
-        }, 3000);
+        // }
+        // setTimeout(()=>{                           //<<<---using ()=> syntax
+        //   this.errorMessage = "";
+        // }, 3000);
 
-      });
+      // });
   
   
       
