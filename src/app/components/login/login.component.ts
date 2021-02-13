@@ -12,12 +12,29 @@ export class LoginComponent implements OnInit {
   password: any;
   success = true;
   errorMessage = "";
+  // for testing
+  user: any;
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onLoginSubmit() {
+
+    this.user = {
+      name: String,
+      email: String,
+      username: String,
+      password: String
+    }
+
+    // FOR LOCAL TESTING
+    // this.user.name = "test";
+    // this.user.email = "test@test.com";
+    // this.user.username = "test";
+    // this.user.password = "test";
+
+    this.router.navigate(['/dashboard']);
     if (this.username === undefined || this.username === "" || this.password === undefined || this.password === "") {
       this.success = false;
       setTimeout(()=>{                        

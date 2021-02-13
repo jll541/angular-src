@@ -12,7 +12,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-
+import { CommonModule } from '@angular/common'; 
 // NOTE: check if need ot import services?
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,8 +22,8 @@ const routes: Routes = [
 {path: '', component: HomeComponent},
 {path: 'register', component: RegisterComponent},
 {path: 'login', component: LoginComponent},
-{path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-{path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+{path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+{path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 ]; // sets up routes constant where you define your routes
 
 @NgModule({
@@ -34,6 +34,7 @@ const routes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
+    ProfileComponent
     // AuthService
   ],
   imports: [
@@ -43,10 +44,11 @@ const routes: Routes = [
     NgbModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
-  exports: [RouterModule],
-  providers: [AuthService, AuthGuard],
+  exports: [RouterModule, CommonModule, BrowserModule],
+  providers: [AuthService, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

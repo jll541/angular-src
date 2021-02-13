@@ -18,6 +18,14 @@ export class AuthService {
         .pipe(map((res) => res));  
     }
 
+  editEmail(user: any, newEmail:any){
+    let headers = new HttpHeaders();
+    user.email = newEmail;
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('users/edit', user, {headers: headers})
+      .pipe(map((res) => res));  
+  }
+
   authenticateUser(user: any){
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
