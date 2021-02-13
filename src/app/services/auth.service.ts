@@ -22,10 +22,24 @@ export class AuthService {
     let headers = new HttpHeaders();
     user.email = newEmail;
     headers.append('Content-Type', 'application/json');
-    return this.http.post('users/edit', user, {headers: headers})
+    return this.http.post('users/editEmail', user, {headers: headers})
       .pipe(map((res) => res));  
   }
 
+  editPassword(user: any, newPassword:any){
+    let headers = new HttpHeaders();
+    user.password = newPassword;
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('users/editPassword', user, {headers: headers})
+      .pipe(map((res) => res));  
+  }
+
+  deleteUser(user: any){
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('users/deleteUser', user, {headers: headers})
+      .pipe(map((res) => res));  
+  }
   authenticateUser(user: any){
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');

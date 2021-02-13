@@ -10,12 +10,16 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   user: any;
   emailBoolean = false;
+  passwordBoolean = false;
+  deleteBoolean = false;
   email: any;
+  password: any;
+  errorMessage = "";
   constructor(private authService:AuthService, private router:Router) { }
 
   ngOnInit(): void {
     // FOR LOCAL FE TESTING
-  this.user = {
+    this.user = {
       name: String,
       email: String,
       username: String,
@@ -38,24 +42,69 @@ export class ProfileComponent implements OnInit {
   }
 
 editEmail() {
-return this.emailBoolean = !this.emailBoolean;
+  this.passwordBoolean = false;
+  this.deleteBoolean = false;
+  return this.emailBoolean = !this.emailBoolean;
 }
 
 onEditEmailSubmit() {
-this.authService.editEmail(this.user, this.email).subscribe( () => {},
+  if ( this.email === undefined || this.email === "" || !(this.email.includes("@")) || !(this.email.endsWith(".com") || this.email.endsWith(".co.uk") || this.email.endsWith(".ac.uk"))) {
+    this.errorMessage = "Invalid Email Address!";
+    setTimeout(()=>{                        
+      this.errorMessage = "";
+    }, 3000); 
+  } else {
+    this.authService.editEmail(this.user, this.email).subscribe( () => {},
+        (err: any) => {
+        console.log(err);
+        return false;
+      });
+    this.emailBoolean = !this.emailBoolean;
+  } 
+}
+
+editPassword() {
+  this.emailBoolean = false;
+  this.deleteBoolean = false;
+  return this.passwordBoolean = !this.passwordBoolean;
+}
+
+onEditPasswordSubmit() {
+  if ( this.email === undefined || this.email === "") {
+    this.errorMessage = "Invalid Password!"
+  } else {
+    this.authService.editPassword(this.user, this.password).subscribe( () => {},
+          (err: any) => {
+          console.log(err);
+          return false;
+        });
+    this.passwordBoolean = !this.passwordBoolean;
+  }
+}
+
+deleteUser(){
+  this.emailBoolean = false;
+  this.passwordBoolean = false;
+  return this.deleteBoolean = !this.deleteBoolean;
+}
+
+
+onDeleteUserSubmit() {
+  this.authService.getProfile().subscribe( (profile: { user: any; }) => {
+    this.user = profile.user;
+    this.authService.deleteUser(this.user).subscribe( () => {},
       (err: any) => {
       console.log(err);
       return false;
     });
-this.emailBoolean = !this.emailBoolean;
-}
-
-editPassword() {
-
-}
-
-deleteAccount(){
-  
+    },
+    (err: any) => {
+    console.log(err);
+    return false;
+    }
+  );
+  this.authService.logout();
+  this.router.navigate(['/login']);
 }
 
 }

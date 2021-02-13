@@ -5,13 +5,15 @@
         <li class="list-group-item">Email: {{user.email}}</li>
     </ul>
 
-    <button type="button" (click)="editEmail()" class="btn btn-primary">Edit Email</button>
-    <button type="button" class="btn btn-primary">Edit Password</button>
-    <button type="button" class="btn btn-primary">Delete Account</button>
+    <button type="button" (click)="editEmail()" class="btn btn-primary paddingButton">Edit Email</button>
+    <button type="button" (click)="editPassword()" class="btn btn-primary paddingButton">Edit Password</button>
+    <button type="button" (click)="deleteUser()" class="btn btn-primary paddingButton">Delete Account</button>
     
-
 </div>
-
+<div *ngIf="errorMessage.length > 0" class="alert alert-dismissible fade show alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{errorMessage}}</strong>
+</div>
 <div *ngIf="this.emailBoolean">
     <form (submit)="onEditEmailSubmit()">
         <fieldset>
@@ -30,5 +32,23 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </fieldset>
       </form>
+</div>
 
+<div *ngIf="this.passwordBoolean">
+    <form (submit)="onEditPasswordSubmit()">
+        <fieldset>
+          <legend>Edit Password</legend>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Enter new password">
+          </div>   
+     
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+      </form>
+</div>
+
+<div *ngIf="this.deleteBoolean">
+          <legend>Click Delete Forever to remove account</legend>
+          <button (click)="onDeleteUserSubmit()" type="submit" class="btn btn-primary">Delete Forever</button>
 </div>
